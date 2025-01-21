@@ -1,0 +1,29 @@
+# This file generates the GitHub Actions matrix
+# For simple board + shield combinations, add them
+# to the top level board and shield arrays, for more
+# control, add individual board + shield combinations to
+# the `include` property, e.g:
+#
+# board: [ "nice_nano_v2" ]
+# shield: [ "corne_left", "corne_right" ]
+# include:
+#   - board: bdn9_rev2
+#   - board: nice_nano_v2
+#     shield: reviung41
+#
+---
+include:
+  # Build for dongle
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_left
+    cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    artifact-name: splitkb_aurora_lily58_left_dongled
+  
+  # Normal Build
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_left
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_right
+  
+  - board: nice_nano_v2
+    shield: settings_reset
