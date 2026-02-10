@@ -19,7 +19,7 @@
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   =   |
 // | SHIFT |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
 // |  CTRL |  Z  |  X  |  C   |  V   |  B   |   "["  |  |  "]"  |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-//                     |  GUI |LOWER | ALT  |  SPACE |  | ENTER | BSPC | RAISE |  GUI  |
+//                     |LOWER | LALT | LGUI |  SPACE |  | ENTER | BSPC | RAISE |  GUI  |
 			bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                     &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp MINUS
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                      &kp Y  &kp U    &kp I     &kp O   &kp P    &kp EQUAL
@@ -35,15 +35,15 @@
 		lower_layer {
 // ------------------------------------------------------------------------------------------------------------
 // |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
-// |       |     |     |      |      |      |                   |      |       |  UP   |      |       |   ~   |
-// |  CAPS |     |     |      |      |      |                   |      | LEFT  | DOWN  | RIGHT|       |   `   |
+// |       |     |     |      |      |      |                   |      |       |       |      |       |   ~   |
+// |  CAPS |     |     |      |      |      |                   | LEFT | DOWN  |   UP  | RIGHT|       |   `   |
 // |       |     |     |      |      |      |        |  |       |      |       |       |      |   \   |   |   |
 //                     |      |      |      |        |  |  DEL  |      |       |       |
 			bindings = <
 
 &kp F1     &kp F2           &kp F3            &kp F4            &kp F5       &kp F6                       &kp F7    &kp F8    &kp F9       &kp F10   &kp F11   &kp F12
-&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &trans    &kp UP       &trans    &trans    &kp TILDE
-&kp CAPS    &trans           &trans            &trans            &trans       &trans                       &trans    &kp LEFT  &kp DOWN     &kp RIGHT &trans    &kp GRAVE
+&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &trans    &trans       &trans    &trans    &kp TILDE
+&kp CAPS   &trans           &trans            &trans            &trans       &trans                       &kp LEFT  &kp DOWN  &kp UP       &kp RIGHT &trans    &kp GRAVE
 &trans     &trans           &trans            &trans            &trans       &trans    &trans   &trans    &trans    &trans    &trans       &trans    &kp BSLH  &kp PIPE
                                               &trans            &trans       &trans    &trans   &trans    &kp DEL   &trans    &trans
 			>;
@@ -57,13 +57,13 @@
 // | BTCLR | BT1 | BT2 |  BT3 |  BT4 |  BT5 |                   |      |       |       |      |       |      |
 // |       |     |     |      |      |      |                   |      |       | PGUP  |      |       |      |
 // |       |     |     |      |      |      |                   |      |  HOME |  PGDN |  END |       |      |
-// |       |EP ON|EPOFF|      |      |      |                   |      |       |       |      |       |      |
+// | STUDIO|EP ON|EPOFF|      |      |      |                   |      |       |       |      |       |      |
 //                     |      |      |      |        |  |       |      |       |       |
 			bindings = <
 &bt BT_CLR &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3   &bt BT_SEL 4   &trans      &trans    &trans    &trans   &trans    &trans
 &trans     &trans  &trans &trans  &trans  &trans                       &trans      &trans      &kp PG_UP    &trans   &trans    &trans
 &trans     &trans  &trans &trans  &trans  &trans                       &trans      &kp HOME    &kp PG_DN    &kp END   &trans    &trans
-&trans     &ext_power EP_ON  &ext_power EP_OFF &trans  &trans  &trans   &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
+&studio_unlock &ext_power EP_ON  &ext_power EP_OFF &trans  &trans  &trans   &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
                           &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans
 			>;
 
