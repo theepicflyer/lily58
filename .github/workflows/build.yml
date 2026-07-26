@@ -3,3 +3,45 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+
+  # Cut a permanent Release when a v* tag is pushed. Actions artifacts expire
+  # after 90 days; Release assets do not.
+  #
+  #   git tag v1.0.0 && git push origin v1.0.0
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # The reusable workflow's `merge` job publishes one artifact named
+      # "firmware" containing every .uf2.
+      - name: Download firmware artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware
+
+      - name: List assets
+        run: ls -lh firmware
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: firmware/*.uf2
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          body: |
+            Firmware for the SplitKB Aurora Lily58. Flash a **matched pair** —
+            mixing roles will leave the halves unable to connect.
+
+            | Setup | Left half | Right half | Also needs |
+            |---|---|---|---|
+            | Standalone, left central | `splitkb_aurora_lily58_left_central` | `splitkb_aurora_lily58_right_peripheral` | — |
+            | Standalone, right central | `splitkb_aurora_lily58_left_peripheral` | `splitkb_aurora_lily58_right_central` | — |
+            | Dongled (MacroKnob) | `splitkb_aurora_lily58_left_dongled` | `splitkb_aurora_lily58_right_peripheral` | MacroKnob firmware from [macroknob-shield](https://github.com/theepicflyer/macroknob-shield/tree/splitkb_aurora_lily58) |
+
+            `settings_reset` is universal. Flash it to both halves when
+            switching which side is central, then flash the new pair — stored
+            pairings from the old role assignment will otherwise conflict.
