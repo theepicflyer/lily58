@@ -57,6 +57,27 @@ include:
     cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y -DCONFIG_ZMK_STUDIO=y
     artifact-name: splitkb_aurora_lily58_right_central
 
+  # ---------------------------------------------------------------------
+  # Standalone keyboard, RIGHT as central, with the nice!oled custom status
+  # screen (mctechnology17/zmk-nice-oled) on the 128x32 SSD1306 displays.
+  #
+  # The module keys off ZMK's own role config, so the central half gets the
+  # status widgets and the peripheral half gets the animation/battery screen.
+  #
+  # CONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM is passed here rather than in the
+  # shared .conf files on purpose — in a .conf it would also apply to the
+  # non-OLED builds, which have no custom screen to render.
+  # ---------------------------------------------------------------------
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_left nice_oled
+    cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n -DCONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM=y
+    artifact-name: splitkb_aurora_lily58_left_peripheral_oled
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_right nice_oled
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM=y
+    artifact-name: splitkb_aurora_lily58_right_central_oled
+
   # Universal — flash to any half to clear stored settings and BT pairings.
   - board: nice_nano_v2
     shield: settings_reset
