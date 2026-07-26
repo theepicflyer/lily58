@@ -11,21 +11,53 @@
 #   - board: nice_nano_v2
 #     shield: reviung41
 #
+# NOTE: the key is `cmake-args` — lowercase and hyphenated. `CMAKE_ARGS:` is
+# silently ignored by the ZMK workflow: the build goes green and the flag never
+# applies.
 ---
 include:
-  # Build for dongle
+  # ---------------------------------------------------------------------
+  # Dongled keyboard — the MacroKnob is the central.
+  # Flash as a pair: left_dongled + right
+  # Dongle firmware: theepicflyer/macroknob-shield@splitkb_aurora_lily58
+  # ---------------------------------------------------------------------
   - board: nice_nano_v2
     shield: splitkb_aurora_lily58_left
     cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
     artifact-name: splitkb_aurora_lily58_left_dongled
-  
-  # Normal Build
+
+  # ---------------------------------------------------------------------
+  # Standalone keyboard, LEFT as central (the ZMK default).
+  # Flash as a pair: left + right
+  # ---------------------------------------------------------------------
   - board: nice_nano_v2
     shield: splitkb_aurora_lily58_left
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
+    artifact-name: splitkb_aurora_lily58_left_central
   - board: nice_nano_v2
     shield: splitkb_aurora_lily58_right
-  
+    artifact-name: splitkb_aurora_lily58_right_peripheral
+
+  # ---------------------------------------------------------------------
+  # Standalone keyboard, RIGHT as central.
+  # Flash as a pair: left_peripheral + right_central
+  # Upstream sets ZMK_KEYBOARD_NAME only under the _left shield. Without a name
+  # a right-central build advertises as "", so it is set in
+  # config/splitkb_aurora_lily58_right.conf (a .conf file avoids the Kconfig
+  # string-quoting mess that -DCONFIG_...="..." runs into here).
+  # ---------------------------------------------------------------------
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_left
+    cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    artifact-name: splitkb_aurora_lily58_left_peripheral
+  - board: nice_nano_v2
+    shield: splitkb_aurora_lily58_right
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y -DCONFIG_ZMK_STUDIO=y
+    artifact-name: splitkb_aurora_lily58_right_central
+
+  # Universal — flash to any half to clear stored settings and BT pairings.
   - board: nice_nano_v2
     shield: settings_reset
+    artifact-name: settings_reset
